@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+   <!-- BEGIN: Head -->
+   <head>
+      <meta charset="utf-8">
+      <link href="static/images/favicon.png" rel="shortcut icon">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="keywords" content="">
+      <meta name="author" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Leave</title>
+      <style>
+          /* Add this CSS to your styles or within a <styl> block */
+            .alert-container {
+                  display: none; /* Hidden by default */
+                  position: relative;
+                  top: 5px;
+                  z-index: 1000; 
+                  width: auto; /* Adjust width to content */
+                  height: auto; /* Adjust height to content */
+                  max-width: 100%; /* Prevents overflow */
+                  padding: 10px 20px; /* Padding for content */
+                  margin: 10px auto 0 auto; /* Center align */
+                  margin-bottom: 25px; /* Bottom margin */
+                  background-color: #f8d7da; /* Example background color for error */
+                  border: 1px solid #f0ecec; /* Example border color */
+                  border-radius: 5px; /* Rounded corners */
+                  text-align: start; /* Center text */
+                  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
+               }
+
+            .alert-container.active {
+               display: block; /* Show container when active */
+            }
+
+          .alert-container.show{
+            display: block;
+          }
+          .alert-success {
+              background-color: #b3f0c2; /* Green */
+          }
+          .alert-error {
+              background-color: #e7858e; /* Red */
+          }
+          .alert-warning {
+              background-color: #ffc107; /* Yellow */
+              color: #000; /* Black text for better contrast */
+          }
+      </style>
+      <!-- Button Style-->
+      <style>
+        /* Center the button group within the table cell */
+td .btn-group {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 10px; /* Space between the buttons */
+}
+
+/* Style each button */
+td .btn-group .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Explicit Primary button (Approve) styling */
+td .btn-group .btn-primary {
+    background-color: #00712D !important;
+    border-color: #00712D !important;
+    color: #fff !important; /* Ensure the text is white */
+}
+
+td .btn-group .btn-primary:hover {
+    background-color: #0a861a !important;
+    box-shadow: 0px 4px 8px rgb(27, 143, 35);
+}
+
+/* Warning button (Deny) */
+td .btn-group .btn-warning {
+    background-color: #FAFA33 !important;
+    border-color: #FAFA33 !important;
+    color: #212529 !important; /* Dark text for better contrast */
+}
+
+td .btn-group .btn-warning:hover {
+    background-color: #e0a800 !important;
+    box-shadow: 0px 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Danger button (Delete) */
+td .btn-group .btn-danger {
+    background-color: #ed4051 !important;
+    border-color: #ed4051 !important;
+    color: #fff !important;
+}
+
+td .btn-group .btn-danger:hover {
+    background-color: #c82333 !important;
+    box-shadow: 0px 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Additional customization */
+td .btn-group .btn:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
+}
+
+td .btn-group .btn {
+    width: 100%; /* Ensure full-width buttons */
+    max-width: 100px; /* Optional: set max-width for buttons */
+    text-align: center;
+}
+
+td .btn-group {
+    width: auto; /* Adjust group width to fit content */
+}
+
+      </style>
+      <title>Leave</title>
+      <!-- BEGIN: CSS Assets-->
+      <link rel="stylesheet" href="../static/css/app.css" />
+      <link rel="stylesheet" href="../static/css/custom.css" />
+      <!-- END: CSS Assets-->
+   </head>
+   <!-- END: Head -->
+   <body class="app">
+      <!-- BEGIN: Mobile Menu -->
+      <div class="mobile-menu md:hidden">
+         <div class="mobile-menu-bar">
+            <a href="" class="flex mr-auto">
+            <img alt="360DigiTMG CRM" src="../static/images/AISpry-white-01.png">
+            </a>
+            <a href="javascript:;" id="mobile-menu-toggler"> <i data-feather="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>	
+         </div>
+         <!-- <h3 class="use-sec">Admin</h3> -->
+         <ul class="border-t border-theme-24 py-5 hidden">
+            <li>
+               <a href="/dashboard" class="menu">
+                  <div class="menu__icon"> <i data-feather="home"></i> </div>
+                  <div class="menu__title"> Dashboard </div>
+               </a>
+            </li>
+            <li>
+               <a href="/users" class="menu">
+                  <div class="menu__icon"> <i data-feather="users"></i> </div>
+                  <div class="menu__title"> Users </div>
+               </a>
+            </li>
+            <li>
+               <a href="/projects" class="menu">
+                  <div class="menu__icon"> <i data-feather="briefcase"></i> </div>
+                  <div class="menu__title"> Projects </div>
+               </a>
+            </li>
+            <li>
+               <a href="/leave" class="menu menu--active">
+                  <div class="menu__icon"> <i data-feather="calendar"></i> </div>
+                  <div class="menu__title"> Leave </div>
+               </a>
+            </li>
+         </ul>
+      </div>
+      <!-- END: Mobile Menu -->
+      <div class="flex">
+         <!-- BEGIN: Side Menu -->
+         <nav class="side-nav">
+            <a href="" class="intro-x flex items-center pl-5">
+               <img alt="360DigiTMG CRM"  src="static/images/AISpry-white-01.png">
+               <!-- <span class="hidden xl:block text-white text-lg ml-3"> 360DigiTMG <span class="font-medium">one</span> </span> class="w-6"-->
+            </a>
+            <!-- <h3 class="use-sec">Admin</h3> -->
+            <div class="side-nav__devider my-6"></div>
+            <ul>
+                <li>
+                    <a href="/admin" class="side-menu ">
+                       <div class="side-menu__icon"> <i data-feather="home"></i> </div>
+                       <div class="side-menu__title">Dashboard </div>
+                    </a>
+                 </li>
+                {% if role == 'lead' %}
+               <li>
+                  <a href="/dashboard" class="side-menu">
+                     <div class="side-menu__icon"> <i data-feather="user"></i> </div>
+                     <div class="side-menu__title">My Dashboard </div>
+                  </a>
+               </li>
+               {% endif %}
+               {% if role == 'admin' %}
+               <li>
+                  <a href="/users" class="side-menu">
+                     <div class="side-menu__icon"> <i data-feather="users"></i> </div>
+                     <div class="side-menu__title"> Users </div>
+                  </a>
+               </li>
+               {% endif %}
+               <li>
+                  <a href="/projects" class="side-menu">
+                     <div class="side-menu__icon"> <i data-feather="briefcase"></i> </div>
+                     <div class="side-menu__title"> Projects </div>
+                  </a>
+               </li>
+               <li>
+                  <a href="/leave" class="side-menu side-menu--active">
+                     <div class="side-menu__icon"> <i data-feather="calendar"></i> </div>
+                     <div class="side-menu__title"> Leave </div>
+                  </a>
+               </li>
+                
+            </ul>
+         </nav>
+         <!-- END: Side Menu -->
+         <!-- BEGIN: Content -->
+         <div class="content">
+            <!-- BEGIN: Top Bar -->
+            <div class="top-bar">
+               <!-- BEGIN: Breadcrumb -->
+               <div class="-intro-x breadcrumb mr-auto hidden sm:flex"> <a href="/dashboard" class="">Dashboard</a><i data-feather="chevron-right" class="breadcrumb__icon"></i> <a href="/leave" class="breadcrumb--active">Leave</a> </div>
+                    <!-- END: Breadcrumb -->
+               <!-- BEGIN: Search -->
+               <div class="intro-x relative mr-3 sm:mr-6">
+                  <!-- <div class="search hidden sm:block">
+                     <input type="text" class="search__input input placeholder-theme-13" placeholder="Search...">
+                     <i data-feather="search" class="search__icon"></i> 
+                     </div> -->
+                  <!-- <a class="notification sm:hidden" href=""> <i data-feather="search" class="notification__icon"></i> </a>
+                     <div class="search-result">
+                         <div class="search-result__content">
+                             <div class="search-result__content__title">Pages</div>
+                             <div class="mb-5">
+                                 <a href="" class="flex items-center">
+                                     <div class="w-8 h-8 bg-theme-18 text-theme-9 flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-feather="inbox"></i> </div>
+                                     <div class="ml-3">Mail Settings</div>
+                                 </a>
+                                 <a href="" class="flex items-center mt-2">
+                                     <div class="w-8 h-8 bg-theme-17 text-theme-11 flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-feather="users"></i> </div>
+                                     <div class="ml-3">Users & Permissions</div>
+                                 </a>
+                                 <a href="" class="flex items-center mt-2">
+                                     <div class="w-8 h-8 bg-theme-14 text-theme-10 flex items-center justify-center rounded-full"> <i class="w-4 h-4" data-feather="credit-card"></i> </div>
+                                     <div class="ml-3">Transactions Report</div>
+                                 </a>
+                             </div>
+                             <div class="search-result__content__title">Users</div>
+                             <div class="mb-5">
+                                 <a href="" class="flex items-center mt-2">
+                                     <div class="w-8 h-8 image-fit">
+                                         <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/profile-8.jpg">
+                                     </div>
+                                     <div class="ml-3">Bruce Willis</div>
+                                     <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">brucewillis@gmail.com</div>
+                                 </a>
+                                 <a href="" class="flex items-center mt-2">
+                                     <div class="w-8 h-8 image-fit">
+                                         <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/profile-8.jpg">
+                                     </div>
+                                     <div class="ml-3">Edward Norton</div>
+                                     <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">edwardnorton@gmail.com</div>
+                                 </a>
+                                 <a href="" class="flex items-center mt-2">
+                                     <div class="w-8 h-8 image-fit">
+                                         <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/profile-8.jpg">
+                                     </div>
+                                     <div class="ml-3">Keanu Reeves</div>
+                                     <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">keanureeves@gmail.com</div>
+                                 </a>
+                                 <a href="" class="flex items-center mt-2">
+                                     <div class="w-8 h-8 image-fit">
+                                         <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/profile-9.jpg">
+                                     </div>
+                                     <div class="ml-3">Tom Hanks</div>
+                                     <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">tomhanks@gmail.com</div>
+                                 </a>
+                             </div>
+                             <div class="search-result__content__title">Products</div>
+                             <a href="" class="flex items-center mt-2">
+                                 <div class="w-8 h-8 image-fit">
+                                     <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/preview-15.jpg">
+                                 </div>
+                                 <div class="ml-3">Nike Air Max 270</div>
+                                 <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">Sport &amp; Outdoor</div>
+                             </a>
+                             <a href="" class="flex items-center mt-2">
+                                 <div class="w-8 h-8 image-fit">
+                                     <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/preview-7.jpg">
+                                 </div>
+                                 <div class="ml-3">Nikon Z6</div>
+                                 <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">Photography</div>
+                             </a>
+                             <a href="" class="flex items-center mt-2">
+                                 <div class="w-8 h-8 image-fit">
+                                     <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/preview-14.jpg">
+                                 </div>
+                                 <div class="ml-3">Samsung Galaxy S20 Ultra</div>
+                                 <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">Smartphone &amp; Tablet</div>
+                             </a>
+                             <a href="" class="flex items-center mt-2">
+                                 <div class="w-8 h-8 image-fit">
+                                     <img alt="Midone Tailwind HTML Admin Template" class="rounded-full" src="assets/images/preview-4.jpg">
+                                 </div>
+                                 <div class="ml-3">Apple MacBook Pro 13</div>
+                                 <div class="ml-auto w-48 truncate text-gray-600 text-xs text-right">PC &amp; Laptop</div>
+                             </a>
+                         </div>
+                     </div> -->
+               </div>
+               <!-- END: Search -->
+               <!-- BEGIN: Account Menu -->
+               <div class="intro-x dropdown w-8 h-8 relative">
+                  <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
+                     <img alt="Midone Tailwind HTML Admin Template" src="{{ url_for('static', filename='images/logout.png') }}">
+                  </div>
+                  <div class="dropdown-box mt-10 absolute w-56 top-0 right-0 z-20">
+                            <div class="dropdown-box__content box bg-theme-38 text-white">
+                                <div class="p-2 border-t border-theme-40">
+                                    <a href="/logout" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
+                                </div>
+                            </div>
+                        </div>
+               </div>
+               <!-- END: Account Menu -->
+            </div>
+            <!-- END: Top Bar -->
+            <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+               <h2 class="text-lg font-semibold mr-auto">
+                   Leave Request
+               </h2>
+           </div>
+           
+           {% with messages = get_flashed_messages(with_categories=true) %}
+           {% if messages %}
+           <div class = "alert-container show alert-{{messages[0][0]}}">
+              {% for Category, message in messages %}
+                 <div class=" alert alert-{{category}}" >
+                    {{message}}
+                 </div>
+              {% endfor %}
+           </div>
+        {% endif %}
+        {% endwith %}
+           
+           {% if role == 'lead' %}
+           <div class="intro-y">
+            <form action="/leave" enctype="multipart/form-data" method="post" class="mt-5">
+               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                   <div class="flex flex-col sm:flex-row items-center">
+                       <label class="form-label mr-2" for="reason">Reason</label>
+                       <input class="input w-10/12 border mt-2 sm:mt-0 sm:ml-2" type="text" id="reason" name="reason" required>
+                   </div>
+                   <div class="flex flex-col sm:flex-row items-center">
+                       <label class="form-label mr-2" for="leave_start_date">Leave Start Date:</label>
+                       <input class="input w-3/6 border mt-2 sm:mt-0 sm:ml-2" type="date" id="leave_start_date" name="leave_start_date" required>
+                   </div>
+                   <div class="flex flex-col sm:flex-row items-center">
+                       <label class="form-label mr-2" for="leave_end_date">Leave End Date:</label>
+                       <input class="input w-4/6 border mt-2 sm:mt-0 sm:ml-2" type="date" id="leave_end_date" name="leave_end_date" required>
+                   </div>
+                   <div class="flex flex-col sm:flex-row items-center">
+                       <label class="form-label mr-2" for="leave_type">Leave Type:</label>
+                       <select class="input w-full border mt-2 sm:mt-0 sm:ml-2" name="leave_type" id="leave_type" required>
+                           <option value="casual">Casual Leave</option>
+                           <option value="sick">Sick Leave</option>
+                           <option value="special">Special Leave</option>
+                       </select>
+                   </div>
+                   <!-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+                       <button style="height:40px; margin-left: 150px"class="button text-white bg-theme-1 shadow-md mr-2" type="submit">Raise Request</button>
+                   </div> -->
+                   <div id="file_upload_div" class="flex flex-col sm:flex-row items-center" style="display: none;">
+                       <!-- <label style="margin-left: 90PX;"class="form-label mr-2" for="file">Upload File:</label> -->
+                       <input type="file" class="input w-full border mt-2 sm:mt-0 sm:ml-2" name="file" id="file" accept="image/*">
+                   </div>
+                   <div class="flex flex-col sm:flex-row items-center">
+                     <button style="height:40px; margin-left: 20px"class="button text-white bg-theme-1 shadow-md mr-2" type="submit">Raise Request</button>
+                 </div>
+                   <div id="blank_div" class="flex flex-col sm:flex-row items-center" style="display: none;"></div>
+               </div>
+           </form>
+           
+           <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const startDateInput = document.getElementById('start_date');
+                    const endDateInput = document.getElementById('end_date');
+            
+                    startDateInput.addEventListener('change', function() {
+                        endDateInput.min = startDateInput.value;
+                    });
+                });
+               document.addEventListener('DOMContentLoaded', function () {
+                   var leaveTypeSelect = document.getElementById('leave_type');
+                   var fileUploadDiv = document.getElementById('file_upload_div');
+                   var blankDiv = document.getElementById('blank_div');
+                   var fileInput = document.getElementById('file');
+           
+                   leaveTypeSelect.addEventListener('change', function () {
+                       if (leaveTypeSelect.value === 'special') {
+                           fileUploadDiv.style.display = 'block';
+                           fileInput.required = true;
+                           blankDiv.style.display = 'none';
+                       } else {
+                           fileUploadDiv.style.display = 'none';
+                           fileInput.required = false;
+                           blankDiv.style.display = 'block';
+                       }
+                   });
+           
+                   // Initial state setup
+                   if (leaveTypeSelect.value === 'special') {
+                       fileUploadDiv.style.display = 'block';
+                       fileInput.required = true;
+                       blankDiv.style.display = 'none';
+                   } else {
+                       fileUploadDiv.style.display = 'none';
+                       fileInput.required = false;
+                       blankDiv.style.display = 'block';
+                   }
+               });
+           </script>
+           
+           </div>
+           {% endif %}
+           
+           <script>
+               document.addEventListener('DOMContentLoaded', function () {
+                   var leaveTypeSelect = document.getElementById('leave_type');
+                   var fileUploadDiv = document.getElementById('file_upload_div');
+                   var blankDiv = document.getElementById('blank_div');
+                   var fileInput = document.getElementById('file');
+           
+                   leaveTypeSelect.addEventListener('change', function () {
+                       if (leaveTypeSelect.value === 'special') {
+                           fileUploadDiv.style.display = 'block';
+                           fileInput.required = true;
+                           blankDiv.style.display = 'none';
+                       } else {
+                           fileUploadDiv.style.display = 'none';
+                           fileInput.required = false;
+                           blankDiv.style.display = 'block';
+                       }
+                   });
+           
+                   // Initial state setup
+                   if (leaveTypeSelect.value === 'special') {
+                       fileUploadDiv.style.display = 'block';
+                       fileInput.required = true;
+                       blankDiv.style.display = 'none';
+                   } else {
+                       fileUploadDiv.style.display = 'none';
+                       fileInput.required = false;
+                       blankDiv.style.display = 'block';
+                   }
+               });
+           </script>
+           
+           <div class="intro-y datatable-wrapper mt-5 cus-list">
+               <div class="col-span-12 lg:col-span-4">
+                   <div class="tab-content">
+                       <div class="tab-content__pane active mt-6" id="indian">
+                           <table class="table table-report display datatable w-full">
+                               <thead class="table-dark">
+                                   <tr>
+                                       <th class="text-start whitespace-no-wrap">Id</th>
+                                       <th class="text-start whitespace-no-wrap">Reason</th>
+                                       <th class="text-start whitespace-no-wrap">Status</th>
+                                       <th class="text-start" style="width: 200px;">Leave Type</th>
+                                       <th class="text-start" style="width: 200px;">Leave Start Date</th>
+                                       <th class="text-start" style="width: 200px;">Leave End Date</th>
+                                       <th class="text-center" style="width: 100px;">Image File</th>
+                                       <th class="text-start" style="width: 200px;">Created Date</th>
+                                       {% if role == 'admin' %}
+                                           <th class="text-start" style="width: 200px;">Username</th>
+                                       {% endif %}
+                                       <th class="text-start" style="width: 200px;">Action</th>
+                                   </tr>            
+                               </thead>
+                               <tbody>
+                                   {% for leave in leaves %}
+                                   <tr>
+                                       <td class="text-start">{{ leave[0] }}</td>
+                                       <td class="text-start">{{ leave[1] }}</td>
+                                       <td class="text-start">{{ leave[2] }}</td>
+                                       <td class="text-start">{{ leave[6] }}</td>
+                                       <td class="text-start">{{ leave[3] }}</td>
+                                       <td class="text-start">{{ leave[4] }}</td>
+                                       {% if leave[7] %}
+                                           <td class="text-start">
+                                               <form action="/generate_presingned_url" method="post" style="display:inline;">
+                                                   <input type="hidden" name="leave_value" value="{{ leave[7] }}">
+                                                   <button type="submit" style="background:none; color:blue; border:none; padding:0; font:inherit; cursor:pointer;">
+                                                       {{ leave[7] }}
+                                                   </button>
+                                               </form>
+                                           </td>
+                                       {% else %}
+                                           <td class="text-start"></td>
+                                       {% endif %}
+                                       <td class="text-start">{{ leave[5] }}</td>
+                                       {% if role == 'admin' %}
+                                           <td class="text-start">{{ leave[8] }}</td>
+                                       {% endif %}
+                                       <td class="text-start">
+                                           {% if leave[2] == "pending" %}
+                                               <div class="d-flex justify-content-center">
+                                                   <div class="btn-group " role="group" aria-label="Basic button group" >
+                                                       {% if role in ["admin"] %}
+                                                           <!-- <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off"> -->
+                                                           <button type="button" class="btn btn-primary" onclick="window.location.href='/leave/approve/{{ leave[0] }}';">
+                                                               Approve
+                                                           </button>
+                                                           <!-- <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"> -->
+                                                           <button type="button" class="btn btn-warning" onclick="window.location.href='/leave/decline/{{ leave[0] }}';">
+                                                               Deny
+                                                           </button>
+                                                       {% endif %}
+                                                       <button type="button" class="btn btn-danger" onclick="window.location.href='/leave/delete/{{ leave[0] }}';">
+                                                           Delete
+                                                       </button>
+                                                   </div>                               
+                                               </div>
+                                           {% else %}
+                                               No Action
+                                           {% endif %}
+                                       </td>
+                                   </tr>
+                                   {% endfor %}
+                               </tbody>
+                           </table>
+                       </div>
+                   </div>                 
+               </div>
+           </div>
+           
+         <!-- END: Content -->
+      </div>
+      <!-- BEGIN: JS Assets-->
+      <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=["your-google-map-api"]&libraries=places"></script>
+      <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+      <!-- END: JS Assets-->
+   </body>
+</html>

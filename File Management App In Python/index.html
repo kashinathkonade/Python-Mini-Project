@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+   <!-- BEGIN: Head -->
+   <head>
+      <meta charset="utf-8">
+      <link href="static/images/favicon.png" rel="shortcut icon">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="keywords" content="">
+      <title>AiSPRY</title>
+      <!-- BEGIN: CSS Assets-->
+      <link rel="stylesheet" href="static/css/app.css" />
+      <link rel="stylesheet" href="static/css/custom.css" />
+      <!-- END: CSS Assets-->
+   </head>
+   <!-- END: Head -->
+   <body class="app">
+      <!-- BEGIN: Mobile Menu -->
+      <div class="mobile-menu md:hidden">
+         <div class="mobile-menu-bar">
+            <a href="index.html" class="flex mr-auto">
+            <img alt="360DigiTMG CRM" src="static/images/AISpry-white-01.png">
+            </a>
+            <a href="javascript:;" id="mobile-menu-toggler"> <i data-feather="bar-chart-2" class="w-8 h-8 text-white transform -rotate-90"></i> </a>	
+         </div>
+         <!-- <h3 class="use-sec">Admin</h3> -->
+         <ul class="border-t border-theme-24 py-5 hidden">
+            <li>
+               <a href="/dashboard" class="menu menu--active">
+                  <div class="menu__icon"> <i data-feather="home"></i> </div>
+                  <div class="menu__title"> Dashboard </div>
+               </a>
+            </li>
+            {% if role == 'admin' %}
+            <li>
+               <a href="/users" class="side-menu">
+                  <div class="menu__icon"> <i data-feather="users"></i> </div>
+                  <div class="menu__title"> Users </div>
+               </a>
+            </li>
+            {% endif %}
+            <li>
+               <a href="/invoice" class="menu">
+                  <div class="menu__icon"> <i data-feather="file-text"></i> </div>
+                  <div class="menu__title"> Invoice </div>
+               </a>
+            </li>
+            <li>
+               <a href="/projects" class="menu">
+                  <div class="menu__icon"> <i data-feather="book-open"></i> </div>
+                  <div class="menu__title"> Projects </div>
+               </a>
+            </li>
+            {% if role in ['admin','lead']%}
+            <li>
+               <a href="/leave" class="menu">
+                  <div class="menu__icon"> <i data-feather="calendar"></i> </div>
+                  <div class="menu__title"> Leave </div>
+               </a>
+            </li>
+            {% endif %}
+         </ul>
+      </div>
+      <!-- END: Mobile Menu -->
+      <div class="flex">
+         <!-- BEGIN: Side Menu -->
+         <nav class="side-nav">
+            <a href="" class="intro-x flex items-center pl-5">
+               <img alt="360DigiTMG CRM"  src="static/images/AISpry-white-01.png">
+               <!-- <span class="hidden xl:block text-white text-lg ml-3"> 360DigiTMG <span class="font-medium">one</span> </span> class="w-6"-->
+            </a>
+            <div class="side-nav__devider my-6"></div>
+            <ul>
+               <li>
+                  <a href="/admin" class="side-menu ">
+                     <div class="side-menu__icon"> <i data-feather="home"></i> </div>
+                     <div class="side-menu__title"> Dashboard </div>
+                  </a>
+               </li>
+               {% if role == 'User' %}   
+               <li>
+                  <a href="/dashboard" class="side-menu side-menu--active">
+                     <div class="side-menu__icon"> <i data-feather="file-text"></i> </div>
+                     <div class="side-menu__title"> My Dashboard </div>
+                  </a>
+               </li>
+               {% endif %}
+               {% if role == 'admin' %}
+               <li>
+                  <a href="/users" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="users"></i> </div>
+                        <div class="side-menu__title"> Users </div>
+                  </a>
+               </li>
+               {% endif %}
+               <li>
+                  <a href="/projects" class="side-menu">
+                     <div class="side-menu__icon"> <i data-feather="briefcase"></i> </div>
+                     <div class="side-menu__title"> Projects </div>
+                  </a>
+               </li>
+               {% if role in ['admin','User'] %}
+               <li>
+                  <a href="/leave" class="side-menu">
+                     <div class="side-menu__icon"> <i data-feather="calendar"></i> </div>
+                     <div class="side-menu__title"> Leave </div>
+                  </a>
+               </li>
+               {% endif %}
+            </ul>
+         </nav>
+         <!-- END: Side Menu -->
+         <!-- BEGIN: Content -->
+         <div class="content">
+            <!-- BEGIN: Top Bar -->
+            <div class="top-bar">
+               <!-- BEGIN: Breadcrumb -->
+               <div class="-intro-x breadcrumb mr-auto hidden sm:flex"> <a href="/dashboard" class="">Dashboard</a> </div>
+               <!-- <a href="/index" class="breadcrumb--active">Dashboard</a> -->
+               <!-- END: Breadcrumb -->
+               <!-- BEGIN: Search -->
+               <!-- <div class="intro-x relative mr-3 sm:mr-6"> -->
+                  <!--  <div class="search hidden sm:block">
+                     <input type="text" class="search__input input placeholder-theme-13" placeholder="Search...">
+                     <i data-feather="search" class="search__icon"></i> 
+                     </div> -->
+               <!-- </div> -->
+               <!-- END: Search -->
+               <!-- BEGIN: Account Menu -->
+               <div class="intro-x dropdown w-8 h-8 relative">
+                  <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
+                     <img alt="Midone Tailwind HTML Admin Template" src="{{ url_for('static', filename='images/logout.png') }}">
+                  </div>
+                  <div class="dropdown-box mt-10 absolute w-56 top-0 right-0 z-20">
+                     <div class="dropdown-box__content box bg-theme-38 text-white">
+                        <!-- <div class="p-4 border-b border-theme-40">
+                           <div class="font-medium">User Name</div>
+                           <div class="text-xs text-theme-41">Backend Engineer</div>
+                        </div> -->
+                        <!-- <div class="p-2">
+                           <a href="profile.html" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile </a>
+                           <a href="profile-edit.html#password" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="lock" class="w-4 h-4 mr-2"></i> Reset Password </a>
+                        </div> -->
+                        <div class="p-2 border-t border-theme-40">
+                           <a href="/logout" class="flex items-center block p-2 transition duration-300 ease-in-out hover:bg-theme-1 rounded-md"> <i data-feather="toggle-right" class="w-4 h-4 mr-2"></i> Logout </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- END: Account Menu -->
+            </div>
+            <!-- END: Top Bar -->
+            <div class="grid grid-cols-12 gap-6">
+               <div class="col-span-12 xxl:col-span-9 grid grid-cols-12 gap-6">
+                  <!-- BEGIN: General Report -->
+                  <div class="col-span-12 mt-8">
+                     <div class="intro-y flex items-center h-10">
+                        <h2 class="text-lg font-medium truncate mr-5">
+                           General Report
+                        </h2>
+                        <a href="" class="ml-auto flex text-theme-1"> <i data-feather="refresh-ccw" class="w-4 h-4 mr-3"></i> Reload Data </a>
+                     </div>
+                     <div class="grid grid-cols-12 gap-6 mt-5">
+                        {% for resource, count in client_projects_count.items() %}
+                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                           <div class="report-box zoom-in" style="cursor: default;">
+                              <div class="box p-5">
+                                 <div class="flex">
+                                    <i data-feather="layers" class="report-box__icon text-theme-10"></i> 
+                                 </div>
+                                 <div class="text-3xl font-bold leading-8 mt-6">{{ count }}</div>
+                                 <div class="text-base text-gray-600 mt-1">Projects for {{ resource}} </div>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                           <div class="report-box zoom-in" style="cursor: default;">
+                              <div class="box p-5">
+                                 <div class="flex">
+                                    <i data-feather="user" class="report-box__icon text-theme-11"></i> 
+                                 </div>
+                                 <div class="text-3xl font-bold leading-8 mt-6">NA</div>
+                                 <div class="text-base text-gray-600 mt-1"> Student Projects</div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                           <div class="report-box zoom-in" style="cursor: default;">
+                              <div class="box p-5">
+                                 <div class="flex">
+                                    <i data-feather="layers" class="report-box__icon text-theme-12"></i> 
+                                 </div>
+                                 <div class="text-3xl font-bold leading-8 mt-6">NA</div>
+                                 <div class="text-base text-gray-600 mt-1"> Commercialized Projects </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                           <div class="report-box zoom-in" style="cursor: default;">
+                              <div class="box p-5">
+                                 <div class="flex">
+                                    <i data-feather="layers" class="report-box__icon text-theme-9"></i> 
+                                 </div>
+                                 <div class="text-3xl font-bold leading-8 mt-6">NA</div>
+                                 <div class="text-base text-gray-600 mt-1"> Upcoming Student Projects </div>
+                              </div>
+                           </div>
+                        </div>
+                        
+                     </div>
+                  </div>
+                  <!-- END: General Report -->
+                  </div>
+               </div>
+               
+               <div class="graph-container mb-10">
+                  <div class="graph-box1" style="position: relative; cursor: default;" id="columnchart_values">
+                 </div>
+                 
+                  <div class="piechart-container">
+                      <div class="graph-box2" style="cursor: default;" id="piechart"></div>
+                      <div class="graph-box2" style="cursor: default;" id="pie_chart"></div>
+                  </div>
+              </div>
+              <!-- Include this section to show role-specific information -->
+               <div id="role-info"></div>
+              <div class="graph-box " style="cursor: default; margin-bottom: 20px;" id="chart_div"></div>
+
+                  <!-- Lead Information Table -->
+                  <div class="tab-container mt-6 border border-gray-300 rounded-md"> <!-- New Container with Border -->
+                     <div class="table-container">
+                         <div class="flex items-center justify-between p-4">
+                             <!-- Heading -->
+                             <h2 class="text-lg font-bold">Lead Information</h2>
+                         </div>
+                     </div>
+                     <div class="table-box bg-gray-100 rounded-md p-4" style="cursor: default;" id="table_div">
+                        <!-- Elegant table style -->
+                        <table class="w-full text-sm text-left text-gray-700 bg-white border border-gray-300">
+                            <thead>
+                                <tr>
+                                    <th class="border border-gray-300 px-4 py-2">Name</th>
+                                    <th class="border border-gray-300 px-4 py-2">Username</th>
+                                    <th class="border border-gray-300 px-4 py-2">Role</th>
+                                    <th class="border border-gray-300 px-4 py-2">Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for i in range(leads.name | length) %}
+                              <tr>
+                                 <td class="border border-gray-300 px-4 py-2">{{ leads.name[i] }}</td>
+                                 <td class="border border-gray-300 px-4 py-2">{{ leads.username[i] }}</td>
+                                 <td class="border border-gray-300 px-4 py-2">{{ leads.role[i] }}</td>
+                                 <td class="border border-gray-300 px-4 py-2">{{ leads.created_at[i] }}</td>
+                              </tr>
+                              {% endfor %}
+                           </tbody>
+                        </table>
+                    </div>
+                   </div>
+                   
+
+               <!--Project in formation table-->
+               <!-- Ensure you include this in your HTML file (admin.html) -->
+               <div class="tab-container mt-6 border border-gray-300 rounded-md">
+                  <div class="table-container">
+                     <div class="flex items-center justify-between">
+                        <!-- Heading -->
+                        <h2 class="text-lg font-bold">Project Information</h2>
+                     </div>
+                  </div>
+                  <!-- Table Div -->
+                  <div class="table-box bg-gray-100 rounded-md p-4" style="cursor: default;" id="project_table_div">
+                     <!-- Elegant table style -->
+                     <table class="w-full text-sm text-left text-gray-700 bg-white border border-gray-300">
+                        <thead>
+                           <tr>
+                              <th class="border border-gray-300 px-4 py-2">Project Name</th>
+                              <th class="border border-gray-300 px-4 py-2">Start Date</th>
+                              <th class="border border-gray-300 px-4 py-2">End Date</th>
+                              <th class="border border-gray-300 px-4 py-2">Primary Resource</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {% for i in range(projects.project_name | length) %}
+                           <tr>
+                              <td class="border border-gray-300 px-4 py-2">{{ projects.project_name[i] }}</td>
+                              <td class="border border-gray-300 px-4 py-2">{{ projects.project_start_date[i] }}</td>
+                              <td class="border border-gray-300 px-4 py-2">{{ projects.project_end_date[i] }}</td>
+                              <td class="border border-gray-300 px-4 py-2">{{ projects.primary_resource[i] }}</td>
+                           </tr>
+                           {% endfor %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <!-- END: Project Information Table -->
+
+                                    <!--Project in formation table-->
+               <!-- Ensure you include this in your HTML file (admin.html) -->
+               <div class="tab-container mt-6 border border-gray-300 rounded-md">
+                  <div class="table-container">
+                     <div class="flex items-center justify-between">
+                        <!-- Heading -->
+                        <h2 class="text-lg font-bold">Hourly Project Update</h2>
+                     </div>
+                  </div>
+                  <!-- Table Div -->
+                  <div class="table-box bg-gray-100 rounded-md p-4" style="cursor: default;" id="project_table_div">
+                     <!-- Elegant table style -->
+                     <table class="w-full text-sm text-left text-gray-700 bg-white border border-gray-300">
+                        <thead>
+                           <tr>
+                              <th class="border border-gray-300 px-4 py-2">Time</th>
+                              <th class="border border-gray-300 px-4 py-2">Update</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <!-- Loop through the updates -->
+                           {% if role == 'User' %}
+                              <!-- Show updates for the lead's projects -->
+                              {% for i in range(update.created_at | length) %}
+                              <tr>
+                                 <td class="border border-gray-300 px-4 py-2">{{ update.created_at[i] }}</td>
+                                 <td class="border border-gray-300 px-4 py-2">{{ update.hourly_project_update[i] }}</td>
+                              </tr>
+                              {% endfor %}
+                           {% else %}
+                              <!-- If admin, show general updates -->
+                              {% for i in range(update.created_at | length) %}
+                              <tr>
+                                 <td class="border border-gray-300 px-4 py-2">{{ update.created_at[i] }}</td>
+                                 <td class="border border-gray-300 px-4 py-2">{{ update.hourly_project_update[i] }}</td>
+                              </tr>
+                              {% endfor %}
+                           {% endif %}
+                        </tbody>
+                     </table>
+                  </div>
+               </div>                         
+           </div>
+            </div>
+            </div>
+            <!-- END: General Report -->
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- BEGIN: JS Assets-->
+   <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+   <script src="https://maps.googleapis.com/maps/api/js?key=["your-google-map-api"]&libraries=places"></script>
+   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+   <!-- END: JS Assets--> 
+    
+   <!-- Pie Charts Data -->
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <script type="text/javascript">
+       google.charts.load('current', {'packages':['corechart']});
+       google.charts.setOnLoadCallback(drawChart);
+
+       function drawChart() {
+           // Function to generate random domain names
+           function getRandomDomain() {
+               const domains = ['Tech', 'Health', 'Finance', 'Education', 'Retail', 'Entertainment', 'Sports', 'Travel', 'Food', 'Fashion'];
+               return domains[Math.floor(Math.random() * domains.length)];
+           }
+
+           // Function to generate random data
+           function generateRandomData(numItems) {
+               const data = [['Domain', 'No. of Count']];
+               for (let i = 0; i < numItems; i++) {
+                   const domain = getRandomDomain();
+                   const count = Math.floor(Math.random() * 100) + 1; // Random count between 1 and 100
+                   data.push([domain, count]);
+               }
+               return data;
+           }
+
+           // Generate random data for the chart
+           var data = google.visualization.arrayToDataTable(generateRandomData(5)); // Change the number of items as needed
+
+           var options = {
+               title: 'Random Domain Counts',
+               width: 400,  // Set the width of the chart
+               height: 180, // Set the height of the chart
+               legend: { position: 'bottom' }, // Position the legend at the bottom
+               pieSliceText: 'label', // Show labels on pie slices
+           };
+
+           var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+           chart.draw(data, options);
+       }
+   </script>
+
+<!--Column Chart Data-->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load("current", {packages:['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    fetch('/get_chart_data')
+    .then(response => response.json())
+    .then(data => {
+      var googleData = google.visualization.arrayToDataTable(data);
+
+      var view = new google.visualization.DataView(googleData);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "Count of Projects Update",
+        width: 500,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart.draw(view, options);
+    })
+    .catch(error => console.error('Error fetching chart data:', error));
+  }
+</script>
+<!--area Chart Data-->
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script type="text/javascript">
+     google.charts.load('current', {packages: ['corechart', 'line']});
+     google.charts.setOnLoadCallback(drawChart);
+
+     function drawChart() {
+         fetch('/get_project_challenges_data')
+             .then(response => response.json())
+             .then(chart_data => {
+                 var googleData = google.visualization.arrayToDataTable(chart_data);
+
+                 var options = {
+                     title: 'Project Challenge Count Over Time',
+                     curveType: 'function',
+                     width: 1100,
+                     height: 400,
+                     hAxis: {
+                         title: 'Date'
+                     },
+                     vAxis: {
+                         title: 'Challenge Count'
+                     },
+                     legend: { position: 'right' },
+                     pointSize: 5,  // Size of the bullet points
+                     series: {
+                         0: { pointShape: 'circle' },
+                         1: { pointShape: 'circle' },
+                         // Add additional series if needed, each with a specific point shape
+                     }
+                 };
+
+                 var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                 chart.draw(googleData, options);
+             })
+             .catch(error => console.error('Error fetching line chart data:', error));
+     }
+ </script>
+
+    <!--Pie_Chart Data-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+ 
+        function drawChart() {
+            // Function to generate random domain names
+            function getRandomDomain() {
+                const domains = ['Tech', 'Health', 'Finance', 'Education', 'Retail', 'Entertainment', 'Sports', 'Travel', 'Food', 'Fashion'];
+                return domains[Math.floor(Math.random() * domains.length)];
+            }
+ 
+            // Function to generate random data
+            function generateRandomData(numItems) {
+                const data = [['Domain', 'No. of Count']];
+                for (let i = 0; i < numItems; i++) {
+                    const domain = getRandomDomain();
+                    const count = Math.floor(Math.random() * 100) + 1; // Random count between 1 and 100
+                    data.push([domain, count]);
+                }
+                return data;
+            }
+ 
+            // Generate random data for the chart
+            var data = google.visualization.arrayToDataTable(generateRandomData(5)); // Change the number of items as needed
+ 
+            var options = {
+                title: 'Random Domain Counts',
+                width: 400,  // Set the width of the chart
+                height: 180, // Set the height of the chart
+                legend: { position: 'right' }, // Position the legend at the bottom
+                pieSliceText: 'label', // Show labels on pie slices
+            };
+ 
+            var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
+ 
+            chart.draw(data, options);
+        }
+    </script>
+
+
+
+ 
+   </body>
+</html>
