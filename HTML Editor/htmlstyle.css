@@ -1,0 +1,29 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+.output2
+{
+    float: right;
+    margin-top: -560px;
+    
+}
+iframe
+{
+    height: 750px;
+    width: 750px;
+    
+}
+.editor
+{
+    margin-left: 30px;
+}
+.material-symbols-outlined
+{
+    font-weight: 700;
+    font-size: larger;
+}
+
+
+
